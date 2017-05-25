@@ -1,10 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public static class EmojiProvider
 {
     private static List<Emoji> emojis = GetEmojis();
 
     public static List<Emoji> Emojis { get => emojis; }
+
+    public static List<Emoji> GetEmojisByCategory(string categoryName)
+    {
+        return emojis.Where(x => x.Category == categoryName);
+    }
 
     private static List<Emoji> GetEmojis()
     {
@@ -21008,4 +21014,20 @@ public class Emoji
     public string Code { get => this.code; set => this.code = value; }
     public string ShortName { get => this.shortName; set => this.shortName = value; }
     public string Category { get => this.category; set => this.category = value; }
+}
+
+public static class EmojiExtensions
+{
+    public static bool ContainsEmoji(this string a)
+    {
+        foreach(Emoji e in EmojiProvider.Emojis)
+        {
+            if(a.Contains(e.EmojiAsUnicode))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
